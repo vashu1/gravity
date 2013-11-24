@@ -32,6 +32,7 @@
 		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
 	</s:BorderContainer>
 	<s:BorderContainer width="200" height="200" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
-		<s:Button x="0" y="178" label="Generate horseshoe" click="Interface.generate_horseshoe()"/>
+		<s:Button x="0" y="160" label="Generate horseshoe 1" click="Interface.generate_horseshoe1()"/>
+		<s:Button x="0" y="178" label="Generate horseshoe 150" click="Interface.generate_horseshoe150()"/>
 	</s:BorderContainer>
 </s:Application>
