@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+			   applicationComplete="Gravity.init()"
+			   enterFrame="Gravity.main()">
+	<fx:Style source="gravity.css"/>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:BorderContainer borderVisible="false" width="100%" height="100%" mouseDown="Interface.click_handler(event)" mouseUp="Interface.click_handler(event)" mouseMove="Interface.mouse_move(event)" backgroundColor="#000000">
+		<mx:SWFLoader id="view" width="100%" height="100%"/>
+		<s:Label text="Not to physical scale. Gravitational constant is 1. Particle radius is log of mass. Integration is Θ(n^2) Euler." left="0" top="0" fontStyle="italic" fontFamily="Consolas" fontWeight="bold" fontSize="11" color="white"/>
+		<s:Label x="0" y="20" text="Click to add particle. Click and drag to specify velocity vector." fontWeight="bold" fontFamily="Consolas" fontStyle="italic" fontSize="11" color="white"/>
+		<s:Label x="0" y="31" text="Ctrl + Click-Drag moves view." color="white"/>
+		<s:Label x="0" y="41" text="Shift click deletes selected object." color="white"/>
+		
+	</s:BorderContainer>
+	<s:BorderContainer width="200" height="200" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" left="0">
+		<s:Button x="0" y="178" label="Generate proto disk (slow start)" click="Interface.generate_proto()"/>
+		<s:CheckBox x="2" y="160" label="Paths (disables when view moves)" selected="false" id="paths" click="Interface.path_toggle()" color="#FFFFFF"/>
+		<s:Label id="particle_quantity" x="3" y="149" text="Particles:" color="#FFFFFF"/>
+		<s:TextInput id="mass" x="37" y="38" fontFamily="Consolas" fontWeight="bold" text="1000" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
+		<s:Label x="2" y="39" text="Mass:" color="#FFFFFF"/>
+		<s:Button x="2" y="53" label="Tiny" height="15" width="60" click="mass.text = String(1)"/>
+		<s:Button x="151" y="135" label="Clear" height="15" width="60" click="Particle.clear()"/>
+		<s:Button x="2" y="68" label="Small" height="15" width="60" click="mass.text = String(1000)"/>
+		<s:Button x="2" y="83" label="Medium" height="15" width="60" click="mass.text = String(10000)"/>
+		<s:Button x="2" y="98" label="Large" height="15" width="60" click="mass.text = String(100000)"/>
+		<s:Button x="2" y="113" label="Huge" height="15" width="60" click="mass.text = String(1000000)"/>
+		<s:Button x="2" y="128" label="OMFG" height="15" width="60" click="mass.text = String(10000000)"/>
+		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
+	</s:BorderContainer>
+</s:Application>
