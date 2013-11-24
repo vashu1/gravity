@@ -31,4 +31,7 @@
 		<s:Button x="2" y="128" label="OMFG" height="15" width="60" click="mass.text = String(10000000)"/>
 		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
 	</s:BorderContainer>
+	<s:BorderContainer width="200" height="200" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
+		<s:Button x="0" y="178" label="Generate horseshoe" click="Interface.generate_horseshoe()"/>
+	</s:BorderContainer>
 </s:Application>
