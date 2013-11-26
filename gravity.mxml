@@ -12,8 +12,10 @@
 		<mx:SWFLoader id="view" width="100%" height="100%"/>
 		<s:Label text="Not to physical scale. Gravitational constant is 1. Particle radius is log of mass. Integration is Θ(n^2) Euler." left="0" top="0" fontStyle="italic" fontFamily="Consolas" fontWeight="bold" fontSize="11" color="white"/>
 		<s:Label x="0" y="20" text="Click to add particle. Click and drag to specify velocity vector." fontWeight="bold" fontFamily="Consolas" fontStyle="italic" fontSize="11" color="white"/>
-		<s:Label x="0" y="31" text="Ctrl + Click-Drag moves view." color="white"/>
-		<s:Label x="0" y="41" text="Shift click deletes selected object." color="white"/>
+		<s:Label x="0" y="31" text="Alt + Click creates virtual mass at mousepoint. Move it around to influence other particles. As soon as you unpress Alt key it will disappear." color="white"/>
+		<s:Label x="0" y="41" text="Ctrl + Click-Drag moves view." color="white"/>
+		<s:Label x="0" y="51" text="Shift + Click deletes selected object." color="white"/>
+		
 		
 	</s:BorderContainer>
 	<s:BorderContainer width="200" height="200" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" left="0">
@@ -32,6 +34,13 @@
 		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
 	</s:BorderContainer>
 	<s:BorderContainer width="200" height="200" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
+		<s:TextInput id="comp_step" x="105" y="23" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="0.005" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
+		<s:Label x="2" y="24" text="Computation step:" color="#FFFFFF"/>
+		<s:TextInput id="virtual_mass" x="105" y="38" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="1000000" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
+		<s:Label x="2" y="39" text="Alt-click mass:" color="#FFFFFF"/>
+		<s:TextInput id="virtual_radius" x="105" y="53" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="150" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
+		<s:Label x="2" y="54" text="Alt-click radius:" color="#FFFFFF"/>
+		
 		<s:Button x="0" y="160" label="Generate horseshoe 1" click="Interface.generate_horseshoe1()"/>
 		<s:Button x="0" y="178" label="Generate horseshoe 150" click="Interface.generate_horseshoe150()"/>
 	</s:BorderContainer>

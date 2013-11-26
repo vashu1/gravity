@@ -19,7 +19,7 @@ package
 		public static var path_data:BitmapData = new BitmapData(3000, 3000, true, 0x00000000);
 		public static var path_canvas:Bitmap = new Bitmap(path_data);
 		public static var particles:Vector.<Particle> = new Vector.<Particle>;
-		private static var h:Number;
+		public static var h:Number;
 		public static var num_particles:Number;
 		
 		public static function init():void
@@ -41,12 +41,17 @@ package
 		private static function integrate():void
 		{
 			var new_particles:Vector.<Particle> = new Vector.<Particle>;
+			
 			for each (var particle:Particle in particles)
 			{
-				var acceleration_x_sum:Number = 0;
-				var acceleration_y_sum:Number = 0;
+				particle.acc_x = 0;
+				particle.acc_y = 0;
+			}
 				
-				for each (var other_particle:Particle in particles)
+			for each (var other_particle:Particle in particles)
+			{
+			if( (other_particle.mass > 0.001) )
+				for each (var particle:Particle in particles)
 				{
 					if (!(particle == other_particle) && !particle.collided && !other_particle.collided)  // prevents computing force with itself. 
 																										  // !particle.collided prevents further calculations for any previously collided particles. This is necessary to not create multiple particles for a single collision event which causes a collision chain reaction of new particles.
@@ -56,7 +61,7 @@ package
 						var y_diff:Number = (other_particle.pos_y - particle.pos_y);
 						var displacement_magnitude:Number = Math.sqrt(x_diff*x_diff + y_diff*y_diff)
 						
-						if( !((particle.mass < 0.01) && (other_particle.mass < 0.01)) )
+						if( particle.mass > 0.001 )
 						if (displacement_magnitude < particle.radius/1.5 + other_particle.radius/1.5)
 						{
 							particle.collided = true;
@@ -72,14 +77,24 @@ package
 						}
 
 						var acceleration:Number = other_particle.mass/(displacement_magnitude*displacement_magnitude);
-						if(other_particle.mass > 0.01) {
-							acceleration_x_sum += acceleration*(x_diff/displacement_magnitude);
-							acceleration_y_sum += acceleration*(y_diff/displacement_magnitude);
-						}
+						particle.acc_x += acceleration*(x_diff/displacement_magnitude);
+						particle.acc_y += acceleration*(y_diff/displacement_magnitude);
 					}
 				}
-				particle.acc_x = acceleration_x_sum;
-				particle.acc_y = acceleration_y_sum;
+			}
+			
+			for each (var particle:Particle in particles)
+			{
+				if(Interface.virtual_mass_flag>0) {
+					var x_diff:Number = (Interface.virtual_mass_x - particle.pos_x);
+					var y_diff:Number = (Interface.virtual_mass_y - particle.pos_y);
+					var displacement_magnitude:Number = Math.sqrt(x_diff*x_diff + y_diff*y_diff);
+					var acceleration:Number = Interface.virtual_mass/(displacement_magnitude*displacement_magnitude);
+					if(displacement_magnitude < Interface.virtual_radius) {
+						particle.acc_x += acceleration*(x_diff/displacement_magnitude);
+						particle.acc_y += acceleration*(y_diff/displacement_magnitude);
+					}
+				}
 			}
 			
 			for (var i:Number = 0; i < Gravity.particles.length; i++)

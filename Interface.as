@@ -6,9 +6,16 @@ package
 	import flash.utils.*;
 	
 	import mx.utils.*;
+	import mx.controls.*;
 	
 	public class Interface
 	{
+		public static var virtual_mass:Number = 10;
+		public static var virtual_radius:Number = 150;
+		public static var virtual_mass_flag:Number = 0;
+		public static var virtual_mass_x:Number = 0;
+		public static var virtual_mass_y:Number = 0;
+		
 		private static var prior_mouse_x:Number = 0;
 		private static var prior_mouse_y:Number = 0;
 		public static var down_position_x:Number;
@@ -17,9 +24,15 @@ package
 		private static var velocity_line:Sprite = new Sprite();
 		Gravity.view.addChild(velocity_line);
 		Gravity.view.addChild(down_position_circle);
-		
+			
 		public static function click_handler(e:MouseEvent):void
 		{
+			if(e.altKey){
+				if(e.buttonDown)
+					virtual_mass_flag = 1;
+			} else {
+				virtual_mass_flag = 0;
+			};
 			if (e.buttonDown && e.ctrlKey)
 			{
 				Gravity.app.paths.selected = false;
@@ -31,7 +44,7 @@ package
 				Particle.delete_particle(Particle(e.target));
 			}
 			
-			if (e.buttonDown && !e.ctrlKey && !e.shiftKey)
+			if (e.buttonDown && !e.ctrlKey && !e.shiftKey && !e.altKey)
 			{	
 				down_position_x = e.stageX;
 				down_position_y = e.stageY;
@@ -39,7 +52,7 @@ package
 				down_position_circle.graphics.beginFill(0x0000FF, 1);
 				down_position_circle.graphics.drawCircle(down_position_x, down_position_y, 2);
 				
-			} else if (!e.ctrlKey && !e.shiftKey)
+			} else if (!e.ctrlKey && !e.shiftKey && !e.altKey)
 			{
 					velocity_line.graphics.clear();
 					down_position_circle.graphics.clear();
@@ -57,8 +70,34 @@ package
 			}
 		}
 		
+		public static function input_change_handler(e:Event):void
+		{
+			virtual_mass = Gravity.app.virtual_mass.text;
+			if (String(virtual_mass) == "NaN" || virtual_mass <= 0)
+			{
+				virtual_mass = 1000*1000; 
+				Gravity.app.virtual_mass.text = 1000000;
+			}
+			virtual_radius = Gravity.app.virtual_radius.text;
+			if (String(virtual_radius) == "NaN" || virtual_radius <= 0)
+			{
+				virtual_radius = 150; 
+				Gravity.app.virtual_radius.text = 150;
+			}
+			Gravity.h = Gravity.app.comp_step.text;
+			if (String(Gravity.h) == "NaN" || Gravity.h <= 0)
+			{
+				Gravity.h = 1/200; 
+				Gravity.app.virtual_radius.text = 0.005;
+			}
+		}
+		
 		public static function mouse_move(e:MouseEvent):void
 		{	
+			if(!e.altKey)
+				virtual_mass_flag = 0;
+			virtual_mass_x = e.localX;
+			virtual_mass_y = e.localY;
 			if (e.buttonDown && e.ctrlKey)
 			{
 				for each (var particle:Particle in Gravity.particles) // Must be stageX delta not localX, otherwise glitches when a particle sprite is clicked.
@@ -70,7 +109,7 @@ package
 			prior_mouse_x = e.stageX;
 			prior_mouse_y = e.stageY;
 			
-			if (e.buttonDown && !e.ctrlKey && !e.shiftKey)
+			if (e.buttonDown && !e.ctrlKey && !e.shiftKey && !e.altKey)
 			{
 				velocity_line.graphics.clear();
 				velocity_line.graphics.lineStyle(1, 0x0000FF, 1);
@@ -110,8 +149,6 @@ package
 
 		public static function generate_horseshoe1():void
 		{
-			Particle.clear();
-			
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 			
@@ -130,8 +167,6 @@ package
 		
 		public static function generate_horseshoe150():void
 		{
-			Particle.clear();
-
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 
