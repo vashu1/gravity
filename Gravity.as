@@ -90,6 +90,7 @@ package
 					var y_diff:Number = (Interface.virtual_mass_y - particle.pos_y);
 					var displacement_magnitude:Number = Math.sqrt(x_diff*x_diff + y_diff*y_diff);
 					var acceleration:Number = Interface.virtual_mass/(displacement_magnitude*displacement_magnitude);
+					if(displacement_magnitude>5)
 					if(displacement_magnitude < Interface.virtual_radius) {
 						particle.acc_x += acceleration*(x_diff/displacement_magnitude);
 						particle.acc_y += acceleration*(y_diff/displacement_magnitude);

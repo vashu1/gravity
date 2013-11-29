@@ -27,12 +27,11 @@ package
 			
 		public static function click_handler(e:MouseEvent):void
 		{
-			if(e.altKey){
+			virtual_mass_flag = 0;
+			if(e.altKey)
 				if(e.buttonDown)
 					virtual_mass_flag = 1;
-			} else {
-				virtual_mass_flag = 0;
-			};
+
 			if (e.buttonDown && e.ctrlKey)
 			{
 				Gravity.app.paths.selected = false;
@@ -84,12 +83,16 @@ package
 				virtual_radius = 150; 
 				Gravity.app.virtual_radius.text = 150;
 			}
-			Gravity.h = Gravity.app.comp_step.text;
-			if (String(Gravity.h) == "NaN" || Gravity.h <= 0)
-			{
-				Gravity.h = 1/200; 
-				Gravity.app.virtual_radius.text = 0.005;
-			}
+		}
+		
+		public static function quicker():void
+		{
+			Gravity.h = Gravity.h * 1.2;
+		}
+		
+		public static function slower():void
+		{
+			Gravity.h = Gravity.h / 1.2;
 		}
 		
 		public static function mouse_move(e:MouseEvent):void
@@ -184,7 +187,67 @@ package
 				Gravity.view.addChild(asteroid);
 				Gravity.particles.push(asteroid);
 			}
-		}		
+		}
+
+		public static var saturn_m:Number = 1000*1000*10*9;
 		
+		public static function generate_moon(r:Number, planet_weight:Number, weight_ratio:Number):void
+		{
+			var center_x:Number = Gravity.particles[0].pos_x;
+			var center_y:Number = Gravity.particles[0].pos_y;
+			
+			var x:Number = r-r*weight_ratio;
+			var y:Number = 0;
+			// f = 9*10^7 / r^2
+			//    = v^2 / r
+			var v:Number = Math.sqrt(planet_weight/r);
+			var xv:Number =  0
+			var yv:Number = -v;
+			
+			var moon:Particle = new Particle(planet_weight * weight_ratio, xv, yv, center_x+x, center_y+y);
+			Gravity.view.addChild(moon);
+			Gravity.particles.push(moon);
+			
+			Gravity.particles[0].pos_x = Gravity.particles[0].pos_x - r*weight_ratio;
+			Gravity.particles[0].vel_y = Gravity.particles[0].vel_y + v*weight_ratio;
+		}
+		
+		public static function generate_low_moon():void
+		{
+			generate_moon(25, saturn_m, 0.01);
+		}
+		
+		public static function generate_high_moon():void
+		{
+			generate_moon(250, saturn_m, 0.01);
+		}
+		
+		public static function generate_Saturn():void
+		{		
+			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
+			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
+
+			var saturn:Particle = new Particle(saturn_m, 0, 0, center_x, center_y);
+			Gravity.view.addChild(saturn);
+			Gravity.particles.push(saturn);
+
+			for (var i:Number = 0; i < 3000 ; i++) {
+				var alpha:Number = Math.random()*2*Math.PI;
+				var r:Number = Math.sqrt(50*50 + Math.random()*150*150);
+				var x:Number = r*Math.cos(alpha);
+				var y:Number = r*Math.sin(alpha);
+				var xr:Number = 0;//Math.random()*6-3;
+				var yr:Number = 0;//Math.random()*6-3;
+				// f = 9*10^7 / r^2
+				//    = v^2 / r
+				var v:Number = Math.sqrt(saturn_m/r);
+				var xv:Number =  v*Math.sin(alpha);
+				var yv:Number = -v*Math.cos(alpha);
+				
+				var ring_particle:Particle = new Particle(0.001, xv, yv, center_x+x+xr, center_y+y+yr);
+				Gravity.view.addChild(ring_particle);
+				Gravity.particles.push(ring_particle);
+			}
+		}
 	}
 }
