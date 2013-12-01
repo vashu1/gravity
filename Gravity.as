@@ -21,6 +21,7 @@ package
 		public static var particles:Vector.<Particle> = new Vector.<Particle>;
 		public static var h:Number;
 		public static var num_particles:Number;
+		public static var zero_mass:Number = 1;
 		
 		public static function init():void
 		{	
@@ -50,7 +51,7 @@ package
 				
 			for each (var other_particle:Particle in particles)
 			{
-			if( (other_particle.mass > 0.001) )
+			if( (other_particle.mass > zero_mass) )
 				for each (var particle:Particle in particles)
 				{
 					if (!(particle == other_particle) && !particle.collided && !other_particle.collided)  // prevents computing force with itself. 
@@ -61,7 +62,7 @@ package
 						var y_diff:Number = (other_particle.pos_y - particle.pos_y);
 						var displacement_magnitude:Number = Math.sqrt(x_diff*x_diff + y_diff*y_diff)
 						
-						if( particle.mass > 0.001 )
+						if( particle.mass > zero_mass )
 						if (displacement_magnitude < particle.radius/1.5 + other_particle.radius/1.5)
 						{
 							particle.collided = true;

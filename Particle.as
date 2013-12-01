@@ -67,6 +67,7 @@ package
 			if (Gravity.app.paths.selected)
 			{
 				for each (var particle:Particle in Gravity.particles)
+				if(particle.mass>Gravity.zero_mass)
 				{	
 					particle.path.graphics.lineStyle(1, particle.color);
 					particle.path.graphics.moveTo(particle.prior_pos_x, particle.prior_pos_y);

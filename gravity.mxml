@@ -41,9 +41,11 @@
 		<s:TextInput id="virtual_radius" x="105" y="53" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="150" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
 		<s:Label x="2" y="54" text="Alt-click radius:" color="#FFFFFF"/>
 		
-		<s:Button x="0" y="104" label="Planet with ring" click="Interface.generate_Saturn()"/>
-		<s:Button x="0" y="127" label="+low moon" click="Interface.generate_low_moon()"/>
-		<s:Button x="100" y="127" label="+high moon" click="Interface.generate_high_moon()"/>
+		<s:Button x="0" y="81" label="Planet with ring" click="Interface.generate_Saturn()"/>
+		<s:Button x="0" y="104" label="+low moon" click="Interface.generate_low_moon()"/>
+		<s:Button x="100" y="104" label="+high moon" click="Interface.generate_high_moon()"/>
+		<s:Button x="0" y="127" label="+eater" click="Interface.generate_eater_moon()"/>
+		<s:Button x="100" y="127" label="+EATER" click="Interface.generate_big_eater_moon()"/>
 		
 		<s:Button x="0" y="155" label="Generate horseshoe 1" click="Interface.generate_horseshoe1()"/>
 		<s:Button x="0" y="178" label="Generate horseshoe 150" click="Interface.generate_horseshoe150()"/>
