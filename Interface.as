@@ -350,5 +350,78 @@ package
 			generate_galaxy_particle(saturn_m, 1, (Rrange)*Math.random()+Rmin, (Rrange)*Math.random()+Rmin, Math.PI*2*Math.random());
 		}
 		}
+		
+				public static function generate_orbital_particle(center_mass:Number, particle_mass:Number, 
+				Rapogee:Number, Rperigee:Number, alpha:Number):void
+		{
+			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
+			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
+			if(Rapogee<Rperigee) {
+				var swap:Number = Rapogee;
+				Rapogee = Rperigee;
+				Rperigee = swap;
+			}
+			//var v:Number = Math.sqrt(planet_weight/r);
+			var va:Number = Math.sqrt(2*center_mass*Rperigee/(Rapogee*(Rapogee+Rperigee)));
+			//var vp:Number = Math.sqrt(2*center_mass*Rapogee/(Rperigee*(Rapogee+Rperigee)));
+			var e:Number = (Rapogee - Rperigee) / (Rapogee + Rperigee);
+			
+			var p:Number = Rapogee*(1-e);
+			var theta:Number = 0;
+			//theta = Math.PI*i;
+			var pi:Number = p/(1-e*Math.cos(theta));
+			
+				var x:Number = pi*Math.cos(theta);
+				var y:Number = pi*Math.sin(theta);
+				var theta1:Number = theta + 0.0001;
+				var pi1:Number = p/(1-e*Math.cos(theta1));
+				var x1:Number = pi1*Math.cos(theta1);
+				var y1:Number = pi1*Math.sin(theta1);
+				x1 = x1 - x;
+				y1 = y1 - y;
+				var length:Number = Math.sqrt(x1*x1 + y1*y1);
+				x1 = x1/length;
+				y1 = y1/length;
+				var length2:Number = Math.sqrt(x*x + y*y);
+				var x2:Number = y/length2;
+				var y2:Number = -x/length2;			
+				var factor:Number = Rapogee/pi/(x1*x2+y1*y2);
+				var xv:Number = va*factor*x1;
+				var yv:Number = va*factor*y1;
+			var cosa:Number = Math.cos(alpha);
+			var sina:Number = Math.sin(alpha);
+			var vxa:Number = (xv*cosa) - (yv*sina);
+			var vya:Number = (xv*sina) + (yv*cosa);
+			var xa:Number = (x*cosa) - (y*sina);
+			var ya:Number = (x*sina) + (y*cosa);
+			var ring_particle:Particle = new Particle(particle_mass, vxa, vya, center_x+xa, center_y+ya);
+			Gravity.view.addChild(ring_particle);
+			Gravity.particles.push(ring_particle);
+			
+
+		}
+
+		public static function generate_rosette():void
+		{
+			var body_count:Number = Gravity.app.body_count.text;
+			if (String(body_count) == "NaN" || body_count <= 0)
+			{
+				body_count = 3; 
+				Gravity.app.body_count.text = 3;
+			}
+				
+			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
+			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
+				
+			var saturn:Particle = new Particle(saturn_m, 0, 0, center_x, center_y);
+			Gravity.view.addChild(saturn);
+			Gravity.particles.push(saturn);
+			
+			var centerbody_to_sattelites_mass_ratio:Number = 30;
+			
+			for (var i8:Number = 0; i8 < body_count ; i8++){
+				generate_orbital_particle(saturn_m*(centerbody_to_sattelites_mass_ratio+1)/centerbody_to_sattelites_mass_ratio, saturn_m/(centerbody_to_sattelites_mass_ratio*body_count), (1)*Math.random()+150, (1)*Math.random()+150, (Math.PI*2)/body_count*i8);// (2)*Math.random()+
+			}
+		}
 	}
 }

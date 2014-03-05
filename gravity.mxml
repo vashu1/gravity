@@ -33,7 +33,7 @@
 		<s:Button x="2" y="128" label="OMFG" height="15" width="60" click="mass.text = String(10000000)"/>
 		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
 	</s:BorderContainer>
-	<s:BorderContainer width="200" height="250" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
+	<s:BorderContainer width="200" height="300" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
 		<s:Button x="25" y="0" label="&#0060;&#0060; Slower" click="Interface.slower()"/>
 		<s:Button x="100" y="0" label="Quicker &#0062;&#0062;" click="Interface.quicker()"/>
 		<s:TextInput id="virtual_mass" x="105" y="38" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="1000000" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
@@ -50,5 +50,9 @@
 		<s:Button x="0" y="155" label="Horseshoe 1" click="Interface.generate_horseshoe1()"/>
 		<s:Button x="0" y="178" label="Horseshoe 150" click="Interface.generate_horseshoe150()"/>
 		<s:Button x="0" y="206" label="Spiral galaxy" click="Interface.generate_galaxy()"/>
+		
+		<s:Button x="0" y="234" label="Klemperer rosette" click="Interface.generate_rosette()"/>
+		<s:Label x="2" y="262" text="Number of bodies:" color="#FFFFFF"/>
+		<s:TextInput id="body_count" x="105" y="260" fontFamily="Consolas" fontWeight="bold" text="3" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="20" borderAlpha="0.38"/>
 	</s:BorderContainer>
 </s:Application>
