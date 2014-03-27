@@ -132,8 +132,16 @@ package
 			}
 		}
 		
+		public static function autoclear():void
+		{
+			if(Gravity.app.autoclear.selected) {
+				Particle.clear();
+			}
+		}
+		
 		public static function generate_proto():void
 		{
+			autoclear();
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 			
@@ -152,6 +160,7 @@ package
 
 		public static function generate_horseshoe1():void
 		{
+			autoclear();
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 			
@@ -170,6 +179,7 @@ package
 		
 		public static function generate_horseshoe150():void
 		{
+			autoclear();
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 
@@ -220,7 +230,7 @@ package
 		
 		public static function generate_high_moon():void
 		{
-			generate_moon(250, saturn_m, 0.01, 1);
+			generate_moon(180, saturn_m, 0.0001, 1);
 		}
 		
 		public static function generate_eater_moon():void
@@ -235,6 +245,8 @@ package
 		
 		public static function generate_Saturn():void
 		{		
+			autoclear();
+			
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 
@@ -259,6 +271,40 @@ package
 				Gravity.view.addChild(ring_particle);
 				Gravity.particles.push(ring_particle);
 			}
+		}
+		
+		public static function generate_hillsphere():void
+		{
+			autoclear();
+			
+			var distance:Number = Gravity.app.distance.text;
+			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
+			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
+			
+			var saturn:Particle = new Particle(saturn_m/10, 0, 0, center_x, center_y);
+			Gravity.view.addChild(saturn);
+			Gravity.particles.push(saturn);
+			
+			var r1:Number = distance;
+			generate_moon(r1, saturn_m/10, 0.1, 1);
+			
+			var v1:Number = Math.sqrt(saturn_m/10/r1);
+
+			for (var i:Number = 0; i < 1000 ; i++) {
+				var alpha:Number = Math.random()*2*Math.PI;
+				var r:Number = Math.sqrt(20*20 + Math.random()*80*80);
+				var x:Number = r*Math.cos(alpha);
+				var y:Number = r*Math.sin(alpha);
+
+				var v:Number = Math.sqrt(saturn_m/100/r);
+				var xv:Number =  v*Math.sin(alpha);
+				var yv:Number = -v*Math.cos(alpha);
+				
+				var ring_particle:Particle = new Particle(Gravity.zero_mass, xv, yv-v1, center_x+x+r1*0.9, center_y+y);
+				Gravity.view.addChild(ring_particle);
+				Gravity.particles.push(ring_particle);
+			}
+		
 		}
 		
 		public static function generate_galaxy_particle(center_mass:Number, particle_mass:Number, 
@@ -319,6 +365,12 @@ package
 		
 		public static function generate_galaxy():void
 		{
+		autoclear();
+		
+		var randomN:Number = Gravity.app.random_count.text; // 100
+		var curvatureN:Number = Gravity.app.curvature_count.text; // 100
+		var spiralN:Number = Gravity.app.spiral_count.text; // 2
+		
 		var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
 		var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
 			
@@ -331,13 +383,14 @@ package
 		var Rrange:Number = 270;
 		var Rmin:Number = 80;
 		for (var i9:Number = Rmin+Rrange; i9 > Rmin ; i9-=1 ){ 
-			var Rratio:Number = (i9-Rmin) / Rrange * 2;
+			var Rratio:Number = (i9-Rmin) / Rrange * 2 * curvatureN / 100;
 			for (var i8:Number = 0; i8 < 15 ; i8++){
 				var e:Number = 2;
-				var Erandom:Number = (Math.random()-0.5)/5;
-				var Arandom:Number = (Math.random()-0.5)*Math.PI/10;
-				generate_galaxy_particle(saturn_m, 1, i9, i9/(e+Erandom), Math.PI/2*Rratio+Arandom);
-				generate_galaxy_particle(saturn_m, 1, i9, i9/(e+Erandom), Math.PI+Math.PI/2*Rratio+Arandom);
+				var Erandom:Number = (Math.random()-0.5)/500*randomN;
+				var Arandom:Number = (Math.random()-0.5)*Math.PI/1000*randomN;
+				for (var i10:Number = 0; i10 < spiralN ; i10+=1 )
+					generate_galaxy_particle(saturn_m, 1, i9, i9/(e+Erandom), Math.PI/2*Rratio+Arandom + Math.PI*2/spiralN*i10);
+				//generate_galaxy_particle(saturn_m, 1, i9, i9/(e+Erandom), Math.PI+Math.PI/2*Rratio+Arandom);
 				
 				//generate_galaxy_particle(saturn_m, 1, i9, i9/2, Math.PI/2+Math.PI/2*Rratio);
 				//generate_galaxy_particle(saturn_m, 1, i9, i9/2, Math.PI/2+Math.PI+Math.PI/2*Rratio);
@@ -351,7 +404,7 @@ package
 		}
 		}
 		
-				public static function generate_orbital_particle(center_mass:Number, particle_mass:Number, 
+		public static function generate_orbital_particle(center_mass:Number, particle_mass:Number, 
 				Rapogee:Number, Rperigee:Number, alpha:Number):void
 		{
 			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
@@ -403,6 +456,8 @@ package
 
 		public static function generate_rosette():void
 		{
+			autoclear();
+			
 			var body_count:Number = Gravity.app.body_count.text;
 			if (String(body_count) == "NaN" || body_count <= 0)
 			{
@@ -423,5 +478,87 @@ package
 				generate_orbital_particle(saturn_m*(centerbody_to_sattelites_mass_ratio+1)/centerbody_to_sattelites_mass_ratio, saturn_m/(centerbody_to_sattelites_mass_ratio*body_count), (1)*Math.random()+150, (1)*Math.random()+150, (Math.PI*2)/body_count*i8);// (2)*Math.random()+
 			}
 		}
+		
+		public static function planet(center:Particle, Rperigee:Number, Rapogee:Number, particle_mass:Number):void
+		{
+			var alpha:Number = Math.PI*2*Math.random();
+			var center_x:Number = center.pos_x;
+			var center_y:Number = center.pos_y;
+			var center_mass:Number = center.mass;
+			
+			if(Rapogee<Rperigee) {
+				var swap:Number = Rapogee;
+				Rapogee = Rperigee;
+				Rperigee = swap;
+			}
+			var va:Number = Math.sqrt(2*center_mass*Rperigee/(Rapogee*(Rapogee+Rperigee)));
+			var e:Number = (Rapogee - Rperigee) / (Rapogee + Rperigee);
+			
+			var p:Number = Rapogee*(1-e);
+			var theta:Number = 0;
+			//theta = Math.PI*i;
+			var pi:Number = p/(1-e*Math.cos(theta));
+			
+				var x:Number = pi*Math.cos(theta);
+				var y:Number = pi*Math.sin(theta);
+				var theta1:Number = theta + 0.0001;
+				var pi1:Number = p/(1-e*Math.cos(theta1));
+				var x1:Number = pi1*Math.cos(theta1);
+				var y1:Number = pi1*Math.sin(theta1);
+				x1 = x1 - x;
+				y1 = y1 - y;
+				var length:Number = Math.sqrt(x1*x1 + y1*y1);
+				x1 = x1/length;
+				y1 = y1/length;
+				var length2:Number = Math.sqrt(x*x + y*y);
+				var x2:Number = y/length2;
+				var y2:Number = -x/length2;			
+				var factor:Number = Rapogee/pi/(x1*x2+y1*y2);
+				var xv:Number = va*factor*x1;
+				var yv:Number = va*factor*y1;
+			var cosa:Number = Math.cos(alpha);
+			var sina:Number = Math.sin(alpha);
+			var vxa:Number = (xv*cosa) - (yv*sina);
+			var vya:Number = (xv*sina) + (yv*cosa);
+			var xa:Number = (x*cosa) - (y*sina);
+			var ya:Number = (x*sina) + (y*cosa);
+			var ring_particle:Particle = new Particle(particle_mass, vxa, vya, center_x+xa, center_y+ya);
+			Gravity.view.addChild(ring_particle);
+			Gravity.particles.push(ring_particle);
+			
+			center.vel_x = center.vel_x - vxa*(particle_mass/center.mass)
+			center.vel_y = center.vel_y - vya*(particle_mass/center.mass)
+		}
+		
+		public static function generate_solar():void
+		{
+			autoclear();
+			
+			var center_x:Number = Gravity.app.parent.parent.stageWidth/2;
+			var center_y:Number = Gravity.app.parent.parent.stageHeight/2;
+			
+			var sun:Particle = new Particle(saturn_m, 0, 0, center_x, center_y);//sun
+			Gravity.view.addChild(sun);
+			Gravity.particles.push(sun);
+			
+			var au:Number = 50;
+			var earth_mass:Number = sun.mass/332736;
+			
+			planet(sun, au*0.466, au*0.307, 0.055*earth_mass);//mercury
+			planet(sun, au*0.728213, au*0.718440, 0.815*earth_mass);//venus
+			planet(sun, au*1.01671388, au*0.98329134, 1*earth_mass);//earth
+			planet(sun, au*1.665861, au*1.381497, 0.107*earth_mass);//mars
+			
+			//for (var i9:Number = 0; i9 < 100 ; i9+=1 ){
+			//	planet(sun, (au*2)*Math.random()+au*2, (au*2)*Math.random()+au*2, 1);
+			//}
+			
+			planet(sun, au*4.950429, au*5.458104, 317.8*earth_mass);//jupiter
+			var jupiter:Particle = Gravity.particles[Gravity.particles.length-1]
+			//planet(jupiter, 7, 8, 1);
+			//planet(jupiter, 11, 13, 1);
+			//planet(jupiter, 15, 17, 1);
+			//planet(jupiter, 3, 4, 1);
+		}		
 	}
 }

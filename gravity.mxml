@@ -25,6 +25,7 @@
 		<s:TextInput id="mass" x="37" y="38" fontFamily="Consolas" fontWeight="bold" text="1000" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
 		<s:Label x="2" y="39" text="Mass:" color="#FFFFFF"/>
 		<s:Button x="2" y="53" label="Tiny" height="15" width="60" click="mass.text = String(1)"/>
+		<s:CheckBox x="145" y="120" label="Autoclearing" selected="true" id="autoclear" color="#FFFFFF"/>
 		<s:Button x="151" y="135" label="Clear" height="15" width="60" click="Particle.clear()"/>
 		<s:Button x="2" y="68" label="Small" height="15" width="60" click="mass.text = String(1000)"/>
 		<s:Button x="2" y="83" label="Medium" height="15" width="60" click="mass.text = String(10000)"/>
@@ -33,7 +34,7 @@
 		<s:Button x="2" y="128" label="OMFG" height="15" width="60" click="mass.text = String(10000000)"/>
 		<s:Label x="4" y="8" color="#0000FF" fontSize="15" id="reality"/>
 	</s:BorderContainer>
-	<s:BorderContainer width="200" height="300" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
+	<s:BorderContainer width="200" height="470" borderVisible="false" backgroundAlpha="0.0" bottom="0" backgroundColor="#EBEBEB" borderColor="#E7E7E7" right="0">
 		<s:Button x="25" y="0" label="&#0060;&#0060; Slower" click="Interface.slower()"/>
 		<s:Button x="100" y="0" label="Quicker &#0062;&#0062;" click="Interface.quicker()"/>
 		<s:TextInput id="virtual_mass" x="105" y="38" change="Interface.input_change_handler(event)" fontFamily="Consolas" fontWeight="bold" text="1000000" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="96" borderAlpha="0.38"/>
@@ -50,9 +51,23 @@
 		<s:Button x="0" y="155" label="Horseshoe 1" click="Interface.generate_horseshoe1()"/>
 		<s:Button x="0" y="178" label="Horseshoe 150" click="Interface.generate_horseshoe150()"/>
 		<s:Button x="0" y="206" label="Spiral galaxy" click="Interface.generate_galaxy()"/>
+		<s:Label x="2" y="234" text="Number of spirals:" color="#FFFFFF"/>
+		<s:TextInput id="spiral_count" x="105" y="234" fontFamily="Consolas" fontWeight="bold" text="2" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="25" borderAlpha="0.38"/>
+		<s:Label x="2" y="254" text="Curvature:" color="#FFFFFF"/>
+		<s:TextInput id="curvature_count" x="105" y="254" fontFamily="Consolas" fontWeight="bold" text="100" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="25" borderAlpha="0.38"/>
+		<s:Label x="2" y="274" text="Random:" color="#FFFFFF"/>
+		<s:TextInput id="random_count" x="105" y="274" fontFamily="Consolas" fontWeight="bold" text="100" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="25" borderAlpha="0.38"/>
 		
-		<s:Button x="0" y="234" label="Klemperer rosette" click="Interface.generate_rosette()"/>
-		<s:Label x="2" y="262" text="Number of bodies:" color="#FFFFFF"/>
-		<s:TextInput id="body_count" x="105" y="260" fontFamily="Consolas" fontWeight="bold" text="3" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="20" borderAlpha="0.38"/>
+		<s:Button x="0" y="302" label="Klemperer rosette" click="Interface.generate_rosette()"/>
+		<s:Label x="2" y="330" text="Number of bodies:" color="#FFFFFF"/>
+		<s:TextInput id="body_count" x="105" y="330" fontFamily="Consolas" fontWeight="bold" text="3" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="20" borderAlpha="0.38"/>
+		
+		<s:Button x="0" y="350" label="Hill sphere" click="Interface.generate_hillsphere()"/>
+		<s:Label x="2" y="378" text="Distance:" color="#FFFFFF"/>
+		<s:TextInput id="distance" x="105" y="378" fontFamily="Consolas" fontWeight="bold" text="250" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" borderVisible="true" fontSize="11" borderColor="#B5B5B5" chromeColor="#FFFFFF" contentBackgroundColor="#2B2B2B" color="#FFFFFF" width="20" borderAlpha="0.38"/>
+		
+		<s:Button x="0" y="406" label="Solar system" click="Interface.generate_solar()"/>
+		
+		<s:CheckBox x="2" y="430" label="Rounding orbits" selected="false" id="rounding" color="#FFFFFF"/>
 	</s:BorderContainer>
 </s:Application>

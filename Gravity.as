@@ -112,6 +112,27 @@ package
 					i-- // Backtracks the index, otherwise the effect of splicing (causing index values of all items beyond splice range to shift down) would cause the next item to be skipped over.
 				}
 			}
+			
+			var central_body_indx:Number = 0;
+			if(Gravity.app.rounding.selected) {
+				for (var i:Number = 1; i < Gravity.particles.length; i++) {
+					if(Gravity.particles[i].mass >  Gravity.particles[central_body_indx].mass) {
+						central_body_indx = i;
+					}
+				}
+				for (var i:Number = 0; i < Gravity.particles.length; i++) {
+					var xvector:Number = Gravity.particles[i].pos_x - Gravity.particles[central_body_indx].pos_x;
+					var yvector:Number = Gravity.particles[i].pos_y - Gravity.particles[central_body_indx].pos_y;
+					var vectorLen:Number = Math.sqrt(xvector*xvector + yvector*yvector);
+					if(vectorLen>0) {
+						xvector /= vectorLen;
+						yvector /= vectorLen;
+					}
+					var scalar:Number = Gravity.particles[i].vel_x*xvector + Gravity.particles[i].vel_y*yvector;
+					Gravity.particles[i].vel_x -= xvector*scalar/100;
+					Gravity.particles[i].vel_y -= yvector*scalar/100;
+				}
+			}
 
 			for each (var new_particle:Particle in new_particles)
 			{
